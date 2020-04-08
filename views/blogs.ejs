@@ -1,0 +1,45 @@
+<% include ./header %>
+<br>
+
+<div class="container">
+	<div class="row">
+
+		<div class="col-sm-2">
+		</div>
+
+		<div class="col-sm-8">
+
+			<% if(blogs.length) { 
+				for(let i = 0; i< blogs.length; i++) {
+			%>
+
+				<!-- Card -->
+			<div class="card">
+
+				<!-- Card image -->
+				  <img class="card-img-top" src="https://my-blog-bucket-57.s3.ap-south-1.amazonaws.com/<%=blogs[i].imageUrl%>" 
+				  alt="Card image cap">
+
+
+			  <div class="card-body">
+			    <!-- Title -->
+			    <h4 class="card-title"><a><%= blogs[i].title %></a></h4>
+			    <!-- Text -->
+			    <% let Thedate = new Date(blogs[i].date) %>
+			    <p class="card-text"> <%= blogs[i].content %> </p>
+			    <a href="/blog/full/<%= blogs[i]._id %>" class="btn btn-primary">Read</a>
+
+			  </div>
+			</div><br>
+
+			<% 	} } %>
+			
+		</div>
+
+		<div class="col-sm-2">
+		</div>
+
+	</div>
+</div>
+
+<% include ./footer %>

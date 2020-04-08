@@ -1,0 +1,13 @@
+<% include ./header %>
+
+<% if(session.userId){ %>
+
+	Hello you are logged in and your id is <%= session.userId %>
+
+<% } else { %>
+
+	Please login
+
+<% } %>
+
+<% include ./footer %>

@@ -1,0 +1,31 @@
+<% include ./header %>
+
+<div class="container">
+	<br><br>
+    <h2 style="text-align:center;">Register Form</h2>
+    <br>
+    <div class="row">
+      <div class="col-lg-4 col-md-10 mx-auto">
+
+        <form method="POST" action="/user/register">
+          <div class="md-form">
+            <input type="text" name="username" class="form-control" placeholder="UserName" id="username">
+          </div>
+          <div class="md-form">
+            <input type="email" name="email" class="form-control" placeholder="Email" id="email"  data-validation-required-message="Please enter the email.">
+          </div>
+          <div class="md-form">
+              <input type="password" name="pwd" class="form-control" placeholder="Password" id="password"  data-validation-required-message="Please enter password.">
+          </div>
+          <div class="md-form">
+            <button type="submit" class="btn btn-primary" id="sendMessageButton">Register</button>
+            <a style="float:right;" href="/user/login" class="text-info" id="sendMessageButton"><b>OR LOGIN</b></a>
+          </div>
+        </form>
+        <a href="/" class="text-info" id="sendMessageButton">Back Home</a>
+      </div>
+    </div>
+  </div>
+
+
+  <% include ./footer %>

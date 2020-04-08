@@ -1,0 +1,90 @@
+<!-- 
+<footer class="page-footer font-small blue">
+
+  <div class="footer-copyright text-center py-3">© 2018 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+  </div>
+
+</footer>
+-->
+
+
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/js/mdb.min.js"></script>
+
+
+<script>
+
+let fileName;
+let preSignedUrl;
+let IMG_URL;
+
+$('#myfile').change(function(event) {
+	event.preventDefault();
+	fileName = event.target.files[0];
+	console.log(fileName.type);
+})
+
+$('#myForm').submit(function (evt) {
+    evt.preventDefault();
+    //window.history.back();
+    var title = $("#title").val();
+	var content = $("#content").val();
+	console.log(title,content,fileName,"ok");
+
+	const url = "http://localhost:3000/uploadimage";
+	
+	//	GET PRESIGNED URL
+	fetch(url)
+		.then(function(res) {
+			res.json().then(function(data) {
+		       preSignedUrl = data.url;
+		       IMG_URL = data.key;
+		       console.log(data.url);
+
+		       //ADD TO S3
+				fetch(preSignedUrl, {
+			    method: 'put',
+			    headers: {
+			      "Content-Type": fileName.type
+			    	},
+			  	body: fileName
+			    }).then(function(res){
+			    		//ADD TO DB
+			    	fetch("http://localhost:3000/blog/add", {
+					    method: 'post',
+					    headers: {
+					      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+					    },
+					    	body: `title=${title}&content=${content}&imageUrl=${IMG_URL}`
+						  })
+					  .then(function (data) {
+					    console.log('Request succeeded with JSON response', data);
+					    window.location.href = "http://localhost:3000/blog/mine";
+					  })
+					  .catch(function (error) {
+					    console.log('Request failed', error);
+					  });
+
+			    }).catch(function(err){})
+
+		    });
+		})
+		.catch(function(err) {
+			console.log(err);
+		})
+});
+
+</script>
+
+
+</body>
+
+</html>
